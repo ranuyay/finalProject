@@ -51,9 +51,30 @@ adult2020r <- na.omit(adult2020)
 
 child2018r <- na.omit(child2018)
 child2019r <- na.omit(child2019)
-chidl2020r <- na.omit(child2020)
+child2020r <- na.omit(child2020)
 
-# intial child data exploration
+# data exploration - examine adhd in boys vs girls, 2018-2020 
+## Independent Chi-Squares 
 
-summary(child2018r)
+library(gmodels)
+CrossTable(child2018r$SEX, child2018r$ADD2, fisher=TRUE, chisq = TRUE, expected = TRUE, sresid = TRUE, format = "SPSS" )
+## Legend: 
+### ADD2: Ever been told you had ADD/ADHD?: 1 = Yes, 2 = No, 7 = Refused, 8 = Not Ascertained, 9 = Don't know
+### SEX: 1 = Male, 2 = Female
+#### Interpreting results: p-value is less than 0.05; there is a significant difference in add/adhd diagnoses between males and females in 2018;
+#### Post Hocs: Significantly more males diagnosed with ADD/ADHD than females in 2018. 
+
+CrossTable(child2019r$SEX_C, child2019r$ADHDEV_C, fisher=TRUE, chisq = TRUE, expected = TRUE, sresid = TRUE, format = "SPSS" )
+## Legend: 
+### ADHDEV_C: Ever had ADD/ADHD?: 1 = Yes, 2 = No, 7 = Refused, 8 = Not Ascertained, 9 = Don't Know
+### SEX_C: 1 = Male, 2 = Female, 7 = Refused, 8 = Not Ascertained, 9 = Don't Know
+#### Interpreting results: p-value is less than 0.05; there is significant difference in add/adhd diagnoses between males and females in 2019;
+#### Post Hocs: Significantly more males diagnosed with ADD/ADHD than females in 2019
+
+CrossTable(child2020r$SEX_C, child2020r$ADHDEV_C, fisher=TRUE, chisq = TRUE, expected = TRUE, sresid = TRUE, format = "SPSS" )
+## Legend: 
+### ADHDEV_C: Ever had ADD/ADHD?: 1 = Yes, 2 = No, 7 = Refused, 9 = Don't Know
+### SEX_C: 1 = Male, 2 = Female, 7 = Refused, 9 = Don't Know
+#### Interpreting results: p-value is less than 0.05; there is significant difference in add/adhd diagnoses between males and females in 2020;
+#### Post Hocs: Significantly more males diagnosed with ADD/ADHD than females in 2020
 
