@@ -53,28 +53,43 @@ child2018r <- na.omit(child2018)
 child2019r <- na.omit(child2019)
 child2020r <- na.omit(child2020)
 
-# data exploration - examine adhd in boys vs girls, 2018-2020 
-## Independent Chi-Squares 
+# Selecting the appropriate Statistical Analysis - examine adhd in boys vs girls, 2018-2020 
+## IV = sex, DV = ADD diagnoses, both categorical, use Independent Chi-Squares test
 
 library(gmodels)
-CrossTable(child2018r$SEX, child2018r$ADD2, fisher=TRUE, chisq = TRUE, expected = TRUE, sresid = TRUE, format = "SPSS" )
+
+
+library("rcompanion")
+library("car")
+install.packages("fastR2")
+library("fastR2")
+
+#Drop values that are no yes/no, male/female
+
+child2018r2 <- child2018r[!(child2018r$ADD2=="7" | child2018r$ADD2=="8" | child2018r$ADD2=="9"),]
+child2019r2 <- child2019r[!(child2019r$SEX_C=="7" | child2019r$SEX_C=="8"| child2019r$SEX_C=="9" | child2019r$ADHDEV_C=="7" | child2019r$ADHDEV_C=="8" | child2019r$ADHDEV_C=="9"),]
+child2020r2 <- child2020r[!(child2020r$SEX_C=="7" | child2020r$SEX_C=="8"| child2020r$SEX_C=="9" | child2020r$ADHDEV_C=="7" | child2020r$ADHDEV_C=="8" | child2020r$ADHDEV_C=="9"),]
+
+CrossTable(child2018r2$SEX, child2018r2$ADD2, fisher=TRUE, chisq = TRUE, expected = TRUE, sresid = TRUE, format = "SPSS" )
 ## Legend: 
-### ADD2: Ever been told you had ADD/ADHD?: 1 = Yes, 2 = No, 7 = Refused, 8 = Not Ascertained, 9 = Don't know
+### ADD2: Ever been told you had ADD/ADHD?: 1 = Yes, 2 = No
 ### SEX: 1 = Male, 2 = Female
 #### Interpreting results: p-value is less than 0.05; there is a significant difference in add/adhd diagnoses between males and females in 2018;
 #### Post Hocs: Significantly more males diagnosed with ADD/ADHD than females in 2018. 
 
-CrossTable(child2019r$SEX_C, child2019r$ADHDEV_C, fisher=TRUE, chisq = TRUE, expected = TRUE, sresid = TRUE, format = "SPSS" )
+CrossTable(child2019r2$SEX_C, child2019r2$ADHDEV_C, fisher=TRUE, chisq = TRUE, expected = TRUE, sresid = TRUE, format = "SPSS" )
 ## Legend: 
-### ADHDEV_C: Ever had ADD/ADHD?: 1 = Yes, 2 = No, 7 = Refused, 8 = Not Ascertained, 9 = Don't Know
-### SEX_C: 1 = Male, 2 = Female, 7 = Refused, 8 = Not Ascertained, 9 = Don't Know
+### ADHDEV_C: Ever had ADD/ADHD?: 1 = Yes, 2 = No
+### SEX_C: 1 = Male, 2 = Female
 #### Interpreting results: p-value is less than 0.05; there is significant difference in add/adhd diagnoses between males and females in 2019;
 #### Post Hocs: Significantly more males diagnosed with ADD/ADHD than females in 2019
 
-CrossTable(child2020r$SEX_C, child2020r$ADHDEV_C, fisher=TRUE, chisq = TRUE, expected = TRUE, sresid = TRUE, format = "SPSS" )
+CrossTable(child2020r2$SEX_C, child2020r2$ADHDEV_C, fisher=TRUE, chisq = TRUE, expected = TRUE, sresid = TRUE, format = "SPSS" )
 ## Legend: 
-### ADHDEV_C: Ever had ADD/ADHD?: 1 = Yes, 2 = No, 7 = Refused, 9 = Don't Know
-### SEX_C: 1 = Male, 2 = Female, 7 = Refused, 9 = Don't Know
+### ADHDEV_C: Ever had ADD/ADHD?: 1 = Yes, 2 = No
+### SEX_C: 1 = Male, 2 = Female
 #### Interpreting results: p-value is less than 0.05; there is significant difference in add/adhd diagnoses between males and females in 2020;
 #### Post Hocs: Significantly more males diagnosed with ADD/ADHD than females in 2020
+## Examining Changes over Time - ADD Diagnoses 2018-2020, Use McNemar Chi-Square
+
 
